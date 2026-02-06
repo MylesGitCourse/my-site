@@ -1,7 +1,8 @@
 self.addEventListener("install", (event) => {
   event.waitUntil(
     caches.open("app-v1").then((cache) =>
-      cache.addAll(["/", "/index.html", "/manifest.webmanifest"])
+      cache.addAll(["./", "./index.html", "./manifest.webmanifest", "./icon-192.png", "./icon-512.png"]);
+
     )
   );
 });

@@ -15,6 +15,24 @@ if(!localStorage.getItem("loggedIn")){
 <meta name="theme-color" content="#000000" />
 
 </head>
+  <style>
+  body{margin:0;font-family:system-ui;background:#eef2f7;color:#111}
+  .wrap{max-width:980px;margin:0 auto;padding:18px}
+  .topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+  .brand{font-size:20px;font-weight:800}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px}
+  .card{background:#fff;border-radius:16px;padding:16px;box-shadow:0 8px 22px rgba(0,0,0,.08)}
+  h3{margin:0 0 6px}
+  p{margin:0 0 12px;color:#555}
+  .row{display:flex;gap:8px;flex-wrap:wrap}
+  input{width:100%;padding:12px;border:1px solid #ddd;border-radius:12px;margin:6px 0 10px;font-size:14px}
+  .btn{padding:10px 12px;border:none;border-radius:12px;background:#3f51b5;color:#fff;font-weight:700;cursor:pointer}
+  .btn.alt{background:#6c63ff}
+  .btn.danger{background:#d33}
+  .btn.full{width:100%}
+  .ghost{background:transparent;border:1px solid #ccc;border-radius:12px;padding:8px 10px;cursor:pointer}
+</style>
+
 <body>
   <div class="wrap">
     <div class="topbar">

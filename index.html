@@ -16,14 +16,65 @@ if(!localStorage.getItem("loggedIn")){
 
 </head>
 <body>
-<h1>Hello from GitHub Pages</h1>
-<p>This can be installed like an app (PWA).</p>
+<body>
+  <div class="wrap">
+    <div class="topbar">
+      <div class="brand">Play2PlayApp</div>
+      <button class="ghost" onclick="logout()">Logout</button>
+    </div>
 
-<script>
-if ("serviceWorker" in navigator) {
-  navigator.serviceWorker.register("./sw.js");
-}
-</script>
+    <div class="grid">
+      <div class="card">
+        <h3>Active Ready Check</h3>
+        <p id="activeInfo">No active check yet.</p>
+        <div class="row">
+          <button class="btn" onclick="setStatus('READY')">Ready</button>
+          <button class="btn alt" onclick="setStatus('LATE')">Late</button>
+          <button class="btn danger" onclick="setStatus('NOT_READY')">Not Ready</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Create Ready Check</h3>
+        <p>Start a new check for your team.</p>
+        <input id="eventName" placeholder="Event name (e.g., Scrim @ 7pm)" />
+        <button class="btn full" onclick="createCheck()">Start</button>
+      </div>
+
+      <div class="card">
+        <h3>My Status</h3>
+        <p id="myStatus">Not set</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Simple demo state stored in the browser (no backend yet)
+    function logout(){
+      localStorage.removeItem("loggedIn");
+      window.location = "login.html";
+    }
+
+    function createCheck(){
+      const name = document.getElementById("eventName").value.trim();
+      if(!name) return alert("Enter an event name");
+      localStorage.setItem("activeCheck", name);
+      document.getElementById("activeInfo").textContent = name;
+      document.getElementById("eventName").value = "";
+    }
+
+    function setStatus(status){
+      localStorage.setItem("myStatus", status);
+      document.getElementById("myStatus").textContent = status;
+    }
+
+    // Load state on page open
+    const active = localStorage.getItem("activeCheck");
+    if(active) document.getElementById("activeInfo").textContent = active;
+    const st = localStorage.getItem("myStatus");
+    if(st) document.getElementById("myStatus").textContent = st;
+  </script>
+</body>
 
 </body>
 </html>

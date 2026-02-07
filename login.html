@@ -1,82 +1,135 @@
 <!doctype html>
-<html>
+<html lang="en">
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Play2PlayApp Login</title>
-
-<style>
-body {
-  margin:0;
-  font-family: system-ui;
-  background:#eef2f7;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  height:100vh;
-}
-
-.card {
-  background:white;
-  padding:30px;
-  border-radius:16px;
-  width:320px;
-  text-align:center;
-  box-shadow:0 10px 30px rgba(0,0,0,.1);
-}
-
-h1 {
-  margin-bottom:20px;
-}
-
-input {
-  width:100%;
-  padding:14px;
-  border-radius:10px;
-  border:1px solid #ddd;
-  margin-bottom:15px;
-  font-size:16px;
-}
-
-button {
-  width:100%;
-  padding:14px;
-  border:none;
-  border-radius:10px;
-  background:#3f51b5;
-  color:white;
-  font-size:16px;
-  cursor:pointer;
-}
-
-button:hover {
-  background:#32408f;
-}
-</style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Play2PlayApp</title>
+  <style>
+    body{
+      margin:0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial;
+      background:#eef2f7;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      height:100vh;
+    }
+    .card{
+      width:360px;
+      background:white;
+      border-radius:18px;
+      padding:26px;
+      text-align:center;
+      box-shadow:0 10px 30px rgba(0,0,0,.12);
+    }
+    .logo{
+      width:56px;height:56px;
+      margin:0 auto 10px;
+      border-radius:14px;
+      background:#eef1ff;
+      display:flex;align-items:center;justify-content:center;
+      font-weight:900;color:#3f51b5;
+    }
+    h2{ margin:8px 0 16px; font-size:22px; }
+    input{
+      width:100%;
+      padding:14px 14px;
+      border:1px solid #d8dbe5;
+      border-radius:12px;
+      font-size:15px;
+      outline:none;
+      margin-bottom:12px;
+    }
+    .btn{
+      width:100%;
+      padding:14px 14px;
+      border:none;
+      border-radius:12px;
+      background:#3f51b5;
+      color:white;
+      font-weight:800;
+      font-size:15px;
+      cursor:pointer;
+      opacity: 0.55;
+    }
+    .btn.enabled{ opacity: 1; }
+    .hint{ margin-top:10px; font-size:12px; color:#666; }
+    .error{ margin-top:10px; font-size:13px; color:#d33; display:none; }
+    .row{ display:none; }
+    .row.active{ display:block; }
+  </style>
 </head>
 
 <body>
+  <div class="card">
+    <div class="logo">P2P</div>
 
-<div class="card">
-  <h1>Play2PlayApp</h1>
+    <div id="step1" class="row active">
+      <h2>Enter Team Password</h2>
+      <input id="pw" type="password" placeholder="Secret Password" autocomplete="current-password">
+      <button id="pwBtn" class="btn" onclick="checkPassword()">Continue</button>
+      <div id="pwErr" class="error">Wrong password.</div>
+      <div class="hint">Password required to enter.</div>
+    </div>
 
-  <input id="password" type="password" placeholder="Secret Password">
+    <div id="step2" class="row">
+      <h2>Who are you?</h2>
+      <input id="name" type="text" placeholder="Your Name" autocomplete="name">
+      <button id="nameBtn" class="btn" onclick="finish()">Start</button>
+      <div id="nameErr" class="error">Please enter your name.</div>
+      <div class="hint">Use the name your team recognizes.</div>
+    </div>
+  </div>
 
-  <button onclick="login()">Enter</button>
-</div>
+  <script>
+    const TEAM_PASSWORD = "play2play";
 
-<script>
-function login(){
-  const pass = document.getElementById("password").value;
+    // If already logged in, go straight to app
+    if (localStorage.getItem("loggedIn") && localStorage.getItem("playerName")) {
+      window.location = "index.html";
+    }
 
-  // Demo password
-  if(pass === "play2play"){
-    localStorage.setItem("loggedIn","true");
-    window.location = "index.html";
-  } else {
-    alert("Wrong password");
-  }
-}
-</script>
+    const pwInput = document.getElementById("pw");
+    const nameInput = document.getElementById("name");
+    const pwBtn = document.getElementById("pwBtn");
+    const nameBtn = document.getElementById("nameBtn");
 
+    function setEnabled(btn, enabled){
+      if(enabled) btn.classList.add("enabled");
+      else btn.classList.remove("enabled");
+    }
+
+    // enable button when typing
+    pwInput.addEventListener("input", () => setEnabled(pwBtn, pwInput.value.trim().length > 0));
+    nameInput.addEventListener("input", () => setEnabled(nameBtn, nameInput.value.trim().length > 0));
+
+    // allow Enter key
+    pwInput.addEventListener("keydown", (e) => { if(e.key === "Enter") checkPassword(); });
+    nameInput.addEventListener("keydown", (e) => { if(e.key === "Enter") finish(); });
+
+    function checkPassword(){
+      document.getElementById("pwErr").style.display = "none";
+      if(pwInput.value.trim() === TEAM_PASSWORD){
+        // move to step 2
+        document.getElementById("step1").classList.remove("active");
+        document.getElementById("step2").classList.add("active");
+        nameInput.focus();
+      } else {
+        document.getElementById("pwErr").style.display = "block";
+      }
+    }
+
+    function finish(){
+      document.getElementById("nameErr").style.display = "none";
+      const name = nameInput.value.trim();
+      if(!name){
+        document.getElementById("nameErr").style.display = "block";
+        return;
+      }
+      localStorage.setItem("loggedIn", "true");
+      localStorage.setItem("playerName", name);
+      window.location = "index.html";
+    }
+  </script>
 </body>
 </html>

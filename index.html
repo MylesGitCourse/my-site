@@ -1,5 +1,6 @@
 <!doctype html>
 <html>
+  
 <head>
 
 <script>
@@ -36,7 +37,7 @@ if(!localStorage.getItem("loggedIn")){
 <body>
   <div class="wrap">
     <div class="topbar">
-      <div class="brand">Play2PlayApp</div>
+      <div class="brand">Play2PlayApp <span id="who" style="font-weight:600; color:#555;"></span></div>
       <button class="ghost" onclick="logout()">Logout</button>
     </div>
 
@@ -66,6 +67,7 @@ if(!localStorage.getItem("loggedIn")){
   </div>
 
   <script>
+    
     // Simple demo state stored in the browser (no backend yet)
     function logout(){
       localStorage.removeItem("loggedIn");
@@ -90,6 +92,11 @@ if(!localStorage.getItem("loggedIn")){
     if(active) document.getElementById("activeInfo").textContent = active;
     const st = localStorage.getItem("myStatus");
     if(st) document.getElementById("myStatus").textContent = st;
+    // show player name in top bar
+const who = localStorage.getItem("playerName") || "";
+document.getElementById("who").textContent = who ? `— ${who}` : "";
+
+    
   </script>
 
 </body>

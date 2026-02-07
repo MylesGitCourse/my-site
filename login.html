@@ -1,0 +1,82 @@
+<!doctype html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Play2PlayApp Login</title>
+
+<style>
+body {
+  margin:0;
+  font-family: system-ui;
+  background:#eef2f7;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  height:100vh;
+}
+
+.card {
+  background:white;
+  padding:30px;
+  border-radius:16px;
+  width:320px;
+  text-align:center;
+  box-shadow:0 10px 30px rgba(0,0,0,.1);
+}
+
+h1 {
+  margin-bottom:20px;
+}
+
+input {
+  width:100%;
+  padding:14px;
+  border-radius:10px;
+  border:1px solid #ddd;
+  margin-bottom:15px;
+  font-size:16px;
+}
+
+button {
+  width:100%;
+  padding:14px;
+  border:none;
+  border-radius:10px;
+  background:#3f51b5;
+  color:white;
+  font-size:16px;
+  cursor:pointer;
+}
+
+button:hover {
+  background:#32408f;
+}
+</style>
+</head>
+
+<body>
+
+<div class="card">
+  <h1>Play2PlayApp</h1>
+
+  <input id="password" type="password" placeholder="Secret Password">
+
+  <button onclick="login()">Enter</button>
+</div>
+
+<script>
+function login(){
+  const pass = document.getElementById("password").value;
+
+  // Demo password
+  if(pass === "play2play"){
+    localStorage.setItem("loggedIn","true");
+    window.location = "index.html";
+  } else {
+    alert("Wrong password");
+  }
+}
+</script>
+
+</body>
+</html>
